@@ -39,9 +39,11 @@ class _DetailPageState extends State<DetailPage> {
       'http://api.douban.com/v2/movie/subject/${widget._movie.movieId}',
     );
 
-    setState(() {
-      _movie = Util.toMovieList(Page.DETAIL, response);
-    });
+    if (mounted) {
+      setState(() {
+        _movie = Util.toMovieList(Page.DETAIL, response);
+      });
+    }
   }
 
   _body() {

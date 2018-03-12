@@ -41,9 +41,11 @@ class _HomePageState extends State<HomePage> {
       'https://api.douban.com/v2/movie/in_theaters?apikey=0b2bdeda43b5688921839c8ecb20399b&city=%E5%8C%97%E4%BA%AC&start=0&count=100&client=&udid=',
     );
 
-    setState(() {
-      _movies = Util.toMovieList(Page.LIST, response);
-    });
+    if (mounted) {
+      setState(() {
+        _movies = Util.toMovieList(Page.LIST, response);
+      });
+    }
   }
 
   _body() {

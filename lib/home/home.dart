@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
     Movie movie = _movies[index];
 
     return new GestureDetector(
-      onTap: () => _toDetailPage(movie, index),
+      onTap: () => _toDetailPage(movie),
       child: new Column(
         children: <Widget>[
           new Row(
@@ -134,11 +134,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _toDetailPage(movie, index) {
+  _toDetailPage(movie) {
     Navigator.of(context).push(
       new MaterialPageRoute(
         builder: (BuildContext context) {
-          return new DetailPage(movie, index);
+          return new DetailPage(movie);
         },
       ),
     );

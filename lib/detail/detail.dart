@@ -4,10 +4,9 @@ import 'package:flutter_movie/model/movie.dart';
 import 'package:flutter_movie/util/util.dart';
 
 class DetailPage extends StatefulWidget {
-  DetailPage(this._movie, this._index);
+  DetailPage(this._movie);
 
   final Movie _movie;
-  final _index;
 
   @override
   State<StatefulWidget> createState() {

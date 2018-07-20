@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_movie/detail/detail.dart';
 import 'package:flutter_movie/model/movie.dart';
 import 'package:flutter_movie/util/util.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   @override
@@ -37,9 +37,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   _initData() async {
-    var response = await createHttpClient().read(
-      'https://api.douban.com/v2/movie/in_theaters?apikey=0b2bdeda43b5688921839c8ecb20399b&city=%E5%8C%97%E4%BA%AC&start=0&count=100&client=&udid=',
-    );
+    var response = await http.Client().read(
+          'https://api.douban.com/v2/movie/in_theaters?apikey=0b2bdeda43b5688921839c8ecb20399b&city=%E5%8C%97%E4%BA%AC&start=0&count=100&client=&udid=',
+        );
 
     if (mounted) {
       setState(() {
@@ -55,50 +55,35 @@ class _HomePageState extends State<HomePage> {
       );
     } else {
       return new ListView.builder(
-        itemBuilder: _item,
+        padding:
+            EdgeInsets.only(left: 10.0, top: 12.0, right: 8.0, bottom: 12.0),
         itemCount: _movies.length,
+        itemBuilder: _item,
       );
     }
   }
 
-  _item(BuildContext context, int index) {
-    Movie movie = _movies[index];
+  Widget _item(BuildContext context, int index) {
+    if (index.isOdd) return Divider();
 
-    return new GestureDetector(
+    Movie movie = _movies[index];
+    return InkWell(
       onTap: () => _toDetailPage(movie),
-      child: new Column(
+      child: new Row(
         children: <Widget>[
-          new Row(
-            children: <Widget>[
-              _image(movie, index),
-              new Expanded(child: _info(movie)),
-              new Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: new Icon(Icons.keyboard_arrow_right),
-              )
-            ],
-          ),
-          new Divider()
+          _image(movie, index),
+          new Expanded(child: _info(movie)),
+          new Icon(Icons.keyboard_arrow_right),
         ],
       ),
     );
   }
 
   _image(Movie movie, int index) {
-    var padding;
-    if (index == 0) {
-      padding =
-          const EdgeInsets.only(left: 6.0, top: 12.0, right: 8.0, bottom: 6.0);
-    } else {
-      padding =
-          const EdgeInsets.only(left: 6.0, top: 6.0, right: 8.0, bottom: 6.0);
-    }
-
     return new Padding(
-      padding: padding,
+      padding: EdgeInsets.only(right: 12.0),
       child: new Image.network(
         movie.smallImage,
-        width: 100.0,
         height: 120.0,
       ),
     );
@@ -113,11 +98,7 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.only(bottom: 6.0),
           child: new Text(
             movie.title,
-            textAlign: TextAlign.left,
-            style: new TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14.0,
-            ),
+            style: new TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         new Text('导演：${movie.director}'),

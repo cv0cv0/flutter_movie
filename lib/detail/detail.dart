@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_movie/model/movie.dart';
 import 'package:flutter_movie/util/util.dart';
+import 'package:http/http.dart' as http;
 
 class DetailPage extends StatefulWidget {
   DetailPage(this._movie);
@@ -34,9 +34,9 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   _initData() async {
-    var response = await createHttpClient().read(
-      'http://api.douban.com/v2/movie/subject/${widget._movie.movieId}',
-    );
+    var response = await http.Client().read(
+          'http://api.douban.com/v2/movie/subject/${widget._movie.movieId}',
+        );
 
     if (mounted) {
       setState(() {
